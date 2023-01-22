@@ -1,15 +1,6 @@
-import { Sequelize } from 'sequelize'
-import dbconf from '../config/db.config'
-import 'dotenv/config'
+import db from '../models'
 
-const conn = new Sequelize(dbconf.db, dbconf.user, dbconf.password, {
-  host: dbconf.host,
-  dialect: dbconf.dialect,
-  pool: dbconf.pool,
-  define: {
-    freezeTableName: true,
-    timestamps: false
-  }
-})
+db.Host.hasMany(db.PingLog)
+db.PingLog.belongsTo(db.Host, { foreignKey: { allowNull: false } })
 
-export default conn
+export default db
