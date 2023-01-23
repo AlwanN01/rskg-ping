@@ -3,32 +3,36 @@ import { Model } from 'sequelize'
 interface Associate {
   associate?(db: DB): void
 }
-interface Methods<T> {
+interface Methods<T, Type> {
   add: s.HasManyAddAssociationsMixin<T, number>
   has: s.HasManyHasAssociationMixin<T, number>
-  get: s.HasManyGetAssociationsMixin<T>
-  set: s.HasManySetAssociationsMixin<T, number>
-  create: s.HasManyCreateAssociationMixin<T, `id`>
+  get: Type extends 'HasOne' ? s.BelongsToGetAssociationMixin<T> : s.HasManyGetAssociationsMixin<T>
+  set: Type extends 'HasOne' ? s.BelongsToSetAssociationMixin<T, number> : s.HasManySetAssociationsMixin<T, number>
+  create: Type extends 'HasOne' ? s.BelongsToCreateAssociationMixin<T> : s.HasManyCreateAssociationMixin<T, `id`>
   remove: s.HasManyRemoveAssociationMixin<T, number>
   count: s.HasManyCountAssociationsMixin
 }
 
-type Plural<Type, Name, Irregular> = {
-  [Property in keyof Type as `${Property}${Irregular extends string ? Capitalize<Irregular> : `${Capitalize<Name>}s`}`]: Type[Property]
+type Plural<Method, Name, Irregular> = {
+  [Property in keyof Method as `${Property}${Irregular extends string ? Capitalize<Irregular> : `${Capitalize<Name>}s`}`]: Method[Property]
 }
-type Singular<Type, Name> = {
-  [Property in keyof Type as `${Property}${Capitalize<Name>}`]: Type[Property]
+type Singular<Method, Name> = {
+  [Property in keyof Method as `${Property}${Capitalize<Name>}`]: Method[Property]
 }
 
 declare global {
-  type HasOneAssoc<T, U extends string, Irregular extends string = void> = Singular<Omit<Methods<T>, 'count' | 'remove' | 'has' | 'add'>, U> &
+  type HasOneAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, Singular> &
     Associate
-  type BelongsToAssoc<T, U extends string, Irregular extends string = void> = Singular<Omit<Methods<T>, 'count' | 'remove' | 'has' | 'add'>, U> &
+
+  type BelongsToAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, Singular> &
     Associate
-  type HasManyAssoc<T, U extends string, Irregular extends string = void> = Singular<Omit<Methods<T>, 'count' | 'get' | 'set'>, U> &
-    Plural<Omit<Methods<T>, 'create'>, U, Irregular> &
+
+  type HasManyAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, Singular> &
+    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, Singular, Irregular> &
     Associate
-  type belongsToMany<T, U extends string, Irregular extends string = void> = Singular<Omit<Methods<T>, 'count' | 'get'>, U> &
-    Plural<Methods<T>, U, Irregular> &
+    
+  type BelongsToManyAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, Singular> &
+    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, Singular, Irregular> &
     Associate
+
 }

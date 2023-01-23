@@ -19,7 +19,8 @@ const dbconf: Config = {
     },
     define: {
       underscored: true
-    }
+    },
+    logging: false
   },
   production: {
     host: process.env.DB_HOST,

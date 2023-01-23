@@ -3,7 +3,7 @@ import sequelize from '../db'
 import { HostSchema } from '../middlewares/validations/Host.middleware'
 import PingLog from './PingLog'
 
-class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HostSchema, HasManyAssoc<PingLog, 'Host'> {
+class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HostSchema, HasManyAssoc<PingLog, 'PingLog'> {
   declare id?: CreationOptional<number>
   declare host: string
   declare user: string
@@ -12,19 +12,19 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare static associations: {
     pingLogs: Association<PingLog, Host>
   }
+  declare createPingLog: s.HasManyCreateAssociationMixin<PingLog, 'id', never>
+  declare addPingLog: s.HasManyAddAssociationsMixin<PingLog, number>
+  declare hasPingLog: s.HasManyHasAssociationMixin<PingLog, number>
+  declare removePingLog: s.HasManyRemoveAssociationMixin<PingLog, number>
+  declare countPingLogs: s.HasManyCountAssociationsMixin
+  declare getPingLogs: s.HasManyGetAssociationsMixin<PingLog>
+  declare setPingLogs: s.HasManySetAssociationsMixin<PingLog, number>
+  declare addPingLogs: s.HasManyAddAssociationsMixin<PingLog, number>
+  declare hasPingLogs: s.HasManyHasAssociationMixin<PingLog, number>
+  declare removePingLogs: s.HasManyRemoveAssociationMixin<PingLog, number>
 
-  declare createHost: s.HasManyCreateAssociationMixin<PingLog, 'id', never>
-  declare addHost: s.HasManyAddAssociationsMixin<PingLog, number>
-  declare hasHost: s.HasManyHasAssociationMixin<PingLog, number>
-  declare removeHost: s.HasManyRemoveAssociationMixin<PingLog, number>
-  declare countHosts: s.HasManyCountAssociationsMixin
-  declare getHosts: s.HasManyGetAssociationsMixin<PingLog>
-  declare setHosts: s.HasManySetAssociationsMixin<PingLog, number>
-  declare addHosts: s.HasManyAddAssociationsMixin<PingLog, number>
-  declare hasHosts: s.HasManyHasAssociationMixin<PingLog, number>
-  declare removeHosts: s.HasManyRemoveAssociationMixin<PingLog, number>
   static associate(db: DB) {
-    Host.hasMany(db.PingLog, { foreignKey: { allowNull: false } })
+    Host.hasMany(db.PingLog)
   }
 }
 
