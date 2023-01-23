@@ -3,16 +3,16 @@ import sequelize from '../db'
 import { HostSchema } from '../middlewares/validations/Host.middleware'
 import PingLog from './PingLog'
 
-class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HostSchema, HasManyAssoc<PingLog, 'PingLog'> {
+class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HasManyAssoc<PingLog, 'PingLog'> {
   declare id?: CreationOptional<number>
-  declare host: string
+  declare hostName: string
   declare user: string
   declare divisi: string
   declare PingLogs?: NonAttribute<PingLog[]>
   declare static associations: {
     pingLogs: Association<PingLog, Host>
   }
-  declare createPingLog: s.HasManyCreateAssociationMixin<PingLog, 'id', never>
+  declare createPingLog: s.HasManyCreateAssociationMixin<PingLog, 'hostId', never>
   declare addPingLog: s.HasManyAddAssociationsMixin<PingLog, number>
   declare hasPingLog: s.HasManyHasAssociationMixin<PingLog, number>
   declare removePingLog: s.HasManyRemoveAssociationMixin<PingLog, number>
@@ -30,7 +30,7 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
 
 Host.init(
   {
-    host: { type: DataTypes.STRING, allowNull: false, unique: true },
+    hostName: { type: DataTypes.STRING, allowNull: false, unique: true },
     user: { type: DataTypes.STRING, allowNull: false },
     divisi: { type: DataTypes.STRING, allowNull: false }
   },
