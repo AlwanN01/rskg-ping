@@ -5,6 +5,7 @@ import type { ParamsDictionary } from 'express-serve-static-core'
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      readonly NODE_ENV: 'development' | 'production'
       readonly SECRET_TOKEN: string
       readonly REFRESH_TOKEN: string
       readonly PORT?: number

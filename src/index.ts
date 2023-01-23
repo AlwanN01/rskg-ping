@@ -2,14 +2,14 @@ import 'dotenv/config'
 import express, { Request, Response } from 'express'
 import cookieParser from 'cookie-parser'
 import router from './routers/+routes'
-import db, { seeders } from './db'
+import db from './models'
 const app = express()
 const port = process.env.PORT || 3000
 
-;(async () => {
-  await db.sequelize.sync()
-  await seeders(db)
-})()
+// ;(async () => {
+//   await db.sequelize.sync({ force: true })
+//   await db.seeders(db)
+// })()
 app.use(express.json())
 app.use(cookieParser())
 app.get('/', async (req: Request, res: Response) => {

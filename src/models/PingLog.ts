@@ -9,6 +9,9 @@ class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<Pi
   declare host: NonAttribute<Host>
   declare isConnect: boolean
   declare createdAt?: CreationOptional<number>
+  static associate(db: DB) {
+    PingLog.belongsTo(db.Host)
+  }
 }
 
 PingLog.init(
@@ -22,9 +25,8 @@ PingLog.init(
 )
 
 export default PingLog
-
 declare global {
-  interface DBALL {
-    PingLog: typeof PingLog
+  interface DB {
+    readonly PingLog: typeof PingLog
   }
 }

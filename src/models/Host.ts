@@ -12,6 +12,9 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare static associations: {
     pingLogs: Association<PingLog, Host>
   }
+  static associate(db: DB) {
+    Host.hasMany(db.PingLog, { foreignKey: { allowNull: false } })
+  }
 }
 
 Host.init(
@@ -25,7 +28,7 @@ Host.init(
 
 export default Host
 declare global {
-  interface DBALL {
-    Host: typeof Host
+  interface DB {
+    readonly Host: typeof Host
   }
 }
