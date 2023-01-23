@@ -3,19 +3,19 @@
 import fs from 'fs'
 import path from 'path'
 import { Sequelize } from 'sequelize'
-import sequelize from '../db/connection'
+import sequelize from '../db'
 import { seeders } from '../db/seeder'
 const basename = path.basename(__filename)
 // @ts-ignore
 const db: DB = {}
-fs.readdirSync(__dirname)
-  .filter(file => {
-    return file.indexOf('.') !== 0 && file !== basename && (file.slice(-3) === '.js' || file.slice(-3) === '.ts')
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file)).default
-    db[model.name] = model
-  })
+
+const dir = fs.readdirSync(__dirname)
+const files = dir.filter(file => file.indexOf('.') !== 0 && file !== basename && (file.slice(-3) === '.js' || file.slice(-3) === '.ts'))
+
+files.forEach(file => {
+  const model = require(path.join(__dirname, file)).default
+  db[model.name] = model
+})
 
 for (const modelName in db) {
   if (db[modelName].associate) {

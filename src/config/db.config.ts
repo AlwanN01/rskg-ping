@@ -1,4 +1,3 @@
-import type { PoolOptions } from 'sequelize'
 import type { Options } from 'sequelize'
 interface Config {
   development: Options

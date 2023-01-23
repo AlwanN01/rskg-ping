@@ -1,5 +1,5 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey, NonAttribute } from 'sequelize'
-import sequelize from '../db/connection'
+import sequelize from '../db'
 import Host from './Host'
 // import { PingLogSchema } from '../../middlewares/validations/PingLog.middle'
 
