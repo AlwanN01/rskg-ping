@@ -17,11 +17,11 @@ fs.readdirSync(__dirname)
     db[model.name] = model
   })
 
-Object.keys(db).forEach(modelName => {
+for (const modelName in db) {
   if (db[modelName].associate) {
     db[modelName].associate(db)
   }
-})
+}
 // @ts-ignore
 db.sequelize = sequelize
 db.Sequelize = Sequelize
