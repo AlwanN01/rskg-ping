@@ -16,7 +16,7 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
 
 Host.init(
   {
-    host: { type: DataTypes.STRING, allowNull: false },
+    host: { type: DataTypes.STRING, allowNull: false, unique: true },
     user: { type: DataTypes.STRING, allowNull: false },
     divisi: { type: DataTypes.STRING, allowNull: false }
   },
@@ -24,3 +24,8 @@ Host.init(
 )
 
 export default Host
+declare global {
+  interface DBALL {
+    Host: typeof Host
+  }
+}
