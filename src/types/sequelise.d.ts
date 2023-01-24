@@ -1,6 +1,9 @@
 import type s from 'sequelize'
 import { Model } from 'sequelize'
 interface Associate {
+  associations?:{
+    assoc: Association
+  }
   associate?(db: DB): void
 }
 interface Methods<T, Type> {
@@ -21,18 +24,18 @@ type Singular<Method, Name> = {
 }
 
 declare global {
-  type HasOneAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, Singular> &
+  type HasOneAssoc<T extends Model, AS extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, AS> &
     Associate
 
-  type BelongsToAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, Singular> &
+  type BelongsToAssoc<T extends Model, AS extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasOne'>, 'count' | 'remove' | 'has' | 'add'>, AS> &
     Associate
 
-  type HasManyAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, Singular> &
-    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, Singular, Irregular> &
+  type HasManyAssoc<T extends Model, AS extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, AS> &
+    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, AS, Irregular> &
     Associate
     
-  type BelongsToManyAssoc<T, Singular extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, Singular> &
-    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, Singular, Irregular> &
+  type BelongsToManyAssoc<T extends Model, AS extends string, Irregular extends string = void> = Singular<Omit<Methods<T, 'HasMany'>, 'count' | 'get' | 'set'>, AS> &
+    Plural<Omit<Methods<T, 'HasMany'>, 'create'>, AS, Irregular> &
     Associate
 
 }
