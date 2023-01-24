@@ -3,5 +3,5 @@ export const host = async (Host: DB['Host']) => {
   //   updateOnDuplicate: ['user', 'divisi']
   // })
   const [host, isCreated] = await Host.findOrCreate({ where: { id: 1 }, defaults: { hostName: 'example1.com', user: 'alwan', divisi: 'IT' } })
-  await host.createPingLog({ isConnect: false })
+  // await host.createPingLog({ isConnect: false })
 }

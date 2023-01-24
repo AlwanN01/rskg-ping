@@ -6,18 +6,16 @@ import Host from './Host'
 class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<PingLog>> implements BelongsToAssoc<Host, 'host'> {
   declare id?: CreationOptional<number>
   declare hostId: ForeignKey<Host['id']>
-  declare Host: NonAttribute<Host>
+  declare host?: NonAttribute<Host>
   declare isConnect: boolean
   declare createdAt?: CreationOptional<number>
 
   declare createHost: s.BelongsToCreateAssociationMixin<Host>
   declare getHost: s.BelongsToGetAssociationMixin<Host>
   declare setHost: s.BelongsToSetAssociationMixin<Host, number>
-  declare static associations: {
-    Host: Association<Host, PingLog>
-  }
+
   static associate(db: DB) {
-    PingLog.belongsTo(db.Host)
+    PingLog.belongsTo(db.Host, { foreignKey: 'hostId', as: 'host' })
   }
 }
 

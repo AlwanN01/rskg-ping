@@ -17,8 +17,10 @@ const dbconf: Config = {
       acquire: 30000,
       idle: 10000
     },
-
-    logging: false
+    define: {
+      underscored: true
+    },
+    logging: true
   },
   production: {
     host: process.env.DB_HOST,

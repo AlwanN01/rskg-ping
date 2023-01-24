@@ -8,7 +8,7 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare hostName: string
   declare user: string
   declare divisi: string
-  declare PingLogs?: NonAttribute<PingLog[]>
+  declare pingLogs?: NonAttribute<PingLog[]>
   declare static associations: {
     pingLogs: Association<PingLog, Host>
   }
@@ -24,7 +24,7 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare removePingLogs: s.HasManyRemoveAssociationMixin<PingLog, number>
 
   static associate(db: DB) {
-    Host.hasMany(db.PingLog)
+    Host.hasMany(db.PingLog, { foreignKey: 'hostId', as: 'pingLogs' })
   }
 }
 

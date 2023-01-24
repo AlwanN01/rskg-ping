@@ -22,7 +22,7 @@ import {
   ForeignKey
 } from 'sequelize'
 
-const sequelize = new Sequelize('mysql://root:asd123@localhost:3306/mydb')
+const sequelize = new Sequelize('mysql://root:@localhost:3306/test', { define: { underscored: true } })
 
 // 'projects' is excluded as it's not an attribute, it's an association.
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -49,7 +49,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare hasProject: HasManyHasAssociationMixin<Project, number>
   declare hasProjects: HasManyHasAssociationsMixin<Project, number>
   declare countProjects: HasManyCountAssociationsMixin
-  declare createProject: HasManyCreateAssociationMixin<Project, 'ownerId'>
+  declare createSolo: HasManyCreateAssociationMixin<Project, 'ownerId'>
 
   // You can also pre-declare possible inclusions, these will only be populated if you
   // actively include a relation.
@@ -61,9 +61,9 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     return this.name
   }
 
-  declare static associations: {
-    projects: Association<User, Project>
-  }
+  // declare static associations: {
+  //   projects: Association<User, Project>
+  // }
 }
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
@@ -156,15 +156,11 @@ Address.init(
 )
 
 // Here we associate which actually populates out pre-declared `association` static and other methods.
-User.hasMany(Project, {
-  sourceKey: 'id',
-  foreignKey: 'ownerId',
-  as: 'projects' // this determines the name in `associations`!
-})
+User.hasMany(Project, { as: { singular: 'solo', plural: 'squad' } })
 
 Address.belongsTo(User, { targetKey: 'id' })
 User.hasOne(Address, { sourceKey: 'id' })
-
+Project.belongsTo(User, { targetKey: 'id' })
 async function doStuffWithUser() {
   const newUser = await User.create({
     name: 'Johnny',
@@ -172,21 +168,21 @@ async function doStuffWithUser() {
   })
   console.log(newUser.id, newUser.name, newUser.preferredName)
 
-  const project = await newUser.createProject({
+  const project = await newUser.createSolo({
     name: 'first!'
   })
 
   const ourUser = await User.findByPk(1, {
-    include: [User.associations.projects],
+    include: [User.associations.squad],
     rejectOnEmpty: true // Specifying true here removes `null` from the return type!
   })
 
   // Note the `!` null assertion since TS can't know if we included
   // the model or not
-  console.log(ourUser.projects![0].name)
+  console.log(project)
 }
 
 ;(async () => {
-  await sequelize.sync()
+  await sequelize.sync({ force: true })
   await doStuffWithUser()
 })()
