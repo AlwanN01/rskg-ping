@@ -14,8 +14,11 @@ class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<Pi
   declare getHost: s.BelongsToGetAssociationMixin<Host>
   declare setHost: s.BelongsToSetAssociationMixin<Host, number>
 
+  declare static associations: {
+    host: Association<Host, PingLog>
+  }
   static associate(db: DB) {
-    PingLog.belongsTo(db.Host, { foreignKey: 'hostId', as: 'host' })
+    PingLog.belongsTo(db.Host)
   }
 }
 
@@ -25,7 +28,8 @@ PingLog.init(
   },
   {
     sequelize,
-    updatedAt: false
+    updatedAt: false,
+    modelName: 'pingLog'
   }
 )
 

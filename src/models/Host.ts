@@ -24,7 +24,7 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare removePingLogs: s.HasManyRemoveAssociationMixin<PingLog, number>
 
   static associate(db: DB) {
-    Host.hasMany(db.PingLog, { foreignKey: 'hostId', as: 'pingLogs' })
+    Host.hasMany(db.PingLog)
   }
 }
 
@@ -34,7 +34,7 @@ Host.init(
     user: { type: DataTypes.STRING, allowNull: false },
     divisi: { type: DataTypes.STRING, allowNull: false }
   },
-  { sequelize }
+  { sequelize, modelName: 'host' }
 )
 
 export default Host

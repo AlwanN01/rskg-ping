@@ -14,7 +14,8 @@ const files = dir.filter(file => file.indexOf('.') !== 0 && file !== basename &&
 
 files.forEach(file => {
   const model = require(path.join(__dirname, file)).default
-  db[model.name] = model
+  const name = model.name.charAt(0).toUpperCase() + model.name.slice(1)
+  db[name] = model
 })
 
 for (const modelName in db) {
