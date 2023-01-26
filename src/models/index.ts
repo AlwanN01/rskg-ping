@@ -2,9 +2,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import { Sequelize } from 'sequelize'
 import sequelize from '../db'
-import { seeders } from '../db/seeder/index'
 const basename = path.basename(__filename)
 
 // @ts-ignore
