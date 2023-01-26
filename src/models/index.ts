@@ -23,18 +23,13 @@ for (const modelName in db) {
     db[modelName].associate(db)
   }
 }
-db.Sequelize = Sequelize
 // @ts-ignore
 db.sequelize = sequelize
-// @ts-ignore
-db.seeders = seeders
-// @ts-ignore
+
 export default db
 
 declare global {
   interface DB extends Record<string, any> {
     readonly sequelize: typeof sequelize
-    Sequelize: typeof Sequelize
-    readonly seeders: typeof seeders
   }
 }
