@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "ts-node src/db/seed.ts",
+    "migrate": "ts-node src/db/migrate.ts",
     "dev": "nodemon src/index.ts",
     "test": "nodemon dist/src/index.js"
   },

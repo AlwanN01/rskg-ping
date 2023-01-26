@@ -1,12 +1,12 @@
 import s, { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey, NonAttribute, Association } from 'sequelize'
 import sequelize from '../db'
 import Host from './Host'
-// import { PingLogSchema } from '../../middlewares/validations/PingLog.middle'
+import { PingLogSchema } from '../middlewares/validations/PingLog.middle'
 
-class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<PingLog>> implements BelongsToAssoc<Host, 'host'> {
+class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<PingLog>> implements BelongsToAssoc<Host, 'host'>, PingLogSchema {
   declare id?: CreationOptional<number>
   declare hostId: ForeignKey<Host['id']>
-  declare host?: NonAttribute<Host>
+  declare host: NonAttribute<Host>
   declare isConnect: boolean
   declare createdAt?: CreationOptional<number>
 
@@ -24,6 +24,7 @@ class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<Pi
 
 PingLog.init(
   {
+    hostId: DataTypes.INTEGER,
     isConnect: { type: DataTypes.BOOLEAN, allowNull: false }
   },
   {

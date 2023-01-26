@@ -1,12 +1,12 @@
-export const up: Migration = async ({ queryInterface, DataTypes }) =>
+export const up: MigrationFn = async ({ queryInterface, DataTypes }) =>
   await queryInterface.createTable('configs', {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    userId: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    user_id: {
+      type: DataTypes.INTEGER,
       references: {
         key: 'id',
         model: 'users'
@@ -16,14 +16,14 @@ export const up: Migration = async ({ queryInterface, DataTypes }) =>
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdAt: {
+    created_at: {
       type: DataTypes.DATE,
       allowNull: false
     },
-    updatedAt: {
+    updated_at: {
       type: DataTypes.DATE,
       allowNull: false
     }
   })
 
-export const down: Migration = async ({ queryInterface }) => await queryInterface.dropTable('configs')
+export const down: MigrationFn = async ({ queryInterface }) => await queryInterface.dropTable('configs')

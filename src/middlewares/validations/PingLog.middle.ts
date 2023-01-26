@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const schema = z.object({
-  host: z.string().url(),
+  hostId: z.coerce.number().optional(),
   isConnect: z.boolean()
 })
 

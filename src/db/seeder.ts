@@ -1,6 +1,6 @@
 require('ts-node/register')
 
-import { migrate } from './umzug'
+import { seed } from './umzug'
 if (require.main === module) {
-  migrate.runAsCLI()
+  seed.runAsCLI()
 }

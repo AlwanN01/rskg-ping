@@ -3,10 +3,10 @@
 import fs from 'fs'
 import path from 'path'
 import { Sequelize } from 'sequelize'
-import sequelize, { umzug } from '../db'
-import { seeders } from '../db/seeder'
-
+import sequelize from '../db'
+import { seeders } from '../db/seeder/index'
 const basename = path.basename(__filename)
+
 // @ts-ignore
 const db: DB = {}
 
@@ -29,7 +29,6 @@ db.sequelize = sequelize
 // @ts-ignore
 db.seeders = seeders
 // @ts-ignore
-db.umzug = umzug
 export default db
 
 declare global {
@@ -37,6 +36,5 @@ declare global {
     readonly sequelize: typeof sequelize
     Sequelize: typeof Sequelize
     readonly seeders: typeof seeders
-    readonly umzug: typeof umzug
   }
 }

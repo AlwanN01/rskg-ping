@@ -3,14 +3,15 @@ import express, { Request, Response } from 'express'
 import cookieParser from 'cookie-parser'
 import router from './routers/+routes'
 import db from './models'
+import { migrate } from './db/umzug'
 const app = express()
 const port = process.env.PORT || 3000
 
 ;(async () => {
-  await db.umzug.down({ to: 0 })
-  await db.sequelize.sync({ force: true })
-  await db.umzug.up()
-  await db.seeders(db)
+  // await migrate.down({ to: 0 })
+  // await db.sequelize.sync({ force: true })
+  // await migrate.up()
+  // await db.seeders(db)
 })()
 
 app.use(express.json())
