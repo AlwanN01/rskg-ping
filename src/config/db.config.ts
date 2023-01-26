@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import type { Options } from 'sequelize'
 interface Config {
   development: Options
@@ -20,7 +21,7 @@ const dbconf: Config = {
     define: {
       underscored: true
     },
-    logging: true
+    logging: false
   },
   production: {
     host: process.env.DB_HOST,
@@ -37,7 +38,8 @@ const dbconf: Config = {
     },
     define: {
       underscored: true
-    }
+    },
+    logging: false
   }
 }
 

@@ -7,9 +7,12 @@ const app = express()
 const port = process.env.PORT || 3000
 
 ;(async () => {
+  await db.umzug.down({ to: 0 })
   await db.sequelize.sync({ force: true })
+  await db.umzug.up()
   await db.seeders(db)
 })()
+
 app.use(express.json())
 app.use(cookieParser())
 app.get('/', async (req: Request, res: Response) => {
