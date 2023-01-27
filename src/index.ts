@@ -16,10 +16,9 @@ const port = process.env.PORT || 3000
 })()
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.get('/', async (req: Request, res: Response) => {
-  // const ping = await PingLog.create({ hostId: 1, isConnect: false })
-  // const host = await Host.create({ host: 'exaddmple.com', divisi: 'IT', user: 'alwan' })
   res.status(200).send('✍️(◔◡◔) Express Typescript')
 })
 app.use(router)
