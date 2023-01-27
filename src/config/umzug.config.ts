@@ -20,7 +20,7 @@ const umzugConfig = ({ sequelize, db, isSeed = false }: Params): UmzugOptions<im
     }
   },
   context: sequelize.getQueryInterface(),
-  storage: new SequelizeStorage({ sequelize }),
+  storage: new SequelizeStorage({ sequelize, modelName: isSeed ? 'sequelize_meta_seed' : 'sequelize_meta_migrate' }),
   logger: console
 })
 
