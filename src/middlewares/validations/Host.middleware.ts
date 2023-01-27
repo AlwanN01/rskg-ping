@@ -1,10 +1,14 @@
 import { z } from 'zod'
 
-const schema = z.object({
-  id: z.number().optional(),
+const hostSchema = z.object({
+  id: z.coerce.number().optional(),
   hostName: z.string().url(),
   user: z.string(),
   divisi: z.string()
 })
 
-export type HostSchema = z.infer<typeof schema>
+export const searchHostSchema = hostSchema.partial()
+export const createHostSchema = hostSchema
+
+export type HostSchema = z.infer<typeof hostSchema>
+export type SearchHostSchema = z.infer<typeof searchHostSchema>
