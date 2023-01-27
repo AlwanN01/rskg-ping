@@ -1,7 +1,9 @@
 import { z } from 'zod'
 
 const schema = z.object({
-  host: z.string().url(),
+  id: z.number().optional(),
+  hostName: z.string().url(),
+  user: z.string(),
   divisi: z.string()
 })
 
