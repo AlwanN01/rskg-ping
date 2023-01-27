@@ -1,11 +1,9 @@
-'use strict'
-
+// @ts-nocheck
 import fs from 'fs'
 import path from 'path'
 import sequelize from '../db'
 const basename = path.basename(__filename)
 
-// @ts-ignore
 const db: DB = {}
 
 const dir = fs.readdirSync(__dirname)
@@ -21,13 +19,12 @@ for (const modelName in db) {
     db[modelName].associate(db)
   }
 }
-// @ts-ignore
 db.sequelize = sequelize
 
 export default db
 
 declare global {
-  interface DB extends Record<string, any> {
+  interface DB {
     readonly sequelize: typeof sequelize
   }
 }
