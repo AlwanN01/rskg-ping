@@ -12,6 +12,7 @@ files.forEach(file => {
   const model = require(path.join(__dirname, file)).default
   const name = model.name.charAt(0).toUpperCase() + model.name.slice(1)
   db[name] = model
+  Object.defineProperty(model, 'name', { value: name }) // modelname tidak akan bisa Capital
 })
 
 for (const modelName in db) {
