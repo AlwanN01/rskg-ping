@@ -5,12 +5,12 @@ interface ReqData {
   [key: string]: string | undefined
 }
 type HandlersQuery<TQuery> = (
-  req: Request<{ id: string } & ReqData, ReqData | null, ReqData | null, TQuery>,
+  req: Request<{ id: string | undefined } & ReqData, ReqData | undefined, ReqData | undefined, TQuery>,
   res: Response,
   next: NextFunction
 ) => Promise<Response | void>
 type HandlersBody<TBody> = (
-  req: Request<{ id: string } & ReqData, TBody, TBody, ReqData | null>,
+  req: Request<{ id: string | undefined } & ReqData, TBody, TBody, ReqData | undefined>,
   res: Response,
   next: NextFunction
 ) => Promise<Response | void>
