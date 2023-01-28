@@ -1,6 +1,6 @@
 import s, { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, NonAttribute, Association } from 'sequelize'
 import sequelize from '../db'
-import { HostSchema } from '../middlewares/validations/Host.middleware'
+import { HostSchema } from '../validations/Host.middleware'
 import PingLog from './PingLog'
 
 class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HostSchema, HasManyAssoc<PingLog, 'PingLog'> {

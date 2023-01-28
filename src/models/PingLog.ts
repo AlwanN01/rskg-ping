@@ -1,7 +1,7 @@
 import s, { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey, NonAttribute, Association } from 'sequelize'
 import sequelize from '../db'
 import Host from './Host'
-import { PingLogSchema } from '../middlewares/validations/PingLog.middle'
+import { PingLogSchema } from '../validations/PingLog.middle'
 
 class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<PingLog>> implements BelongsToAssoc<Host, 'host'>, PingLogSchema {
   declare id?: CreationOptional<number>
