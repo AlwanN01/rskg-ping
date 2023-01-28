@@ -8,11 +8,11 @@ const app = express()
 const port = process.env.PORT || 3000
 
 ;(async () => {
-  await seed.down({ to: 0 }) // yarn seed down --to 0
-  await migrate.down({ to: 0 }) // yarn migrate down --to 0
-  await db.sequelize.sync({ force: true })
-  await migrate.up() // yarn migrate up
-  await seed.up() // yarn seed up
+  // await seed.down({ to: 0 }) // yarn seed down --to 0
+  // await migrate.down({ to: 0 }) // yarn migrate down --to 0
+  // await db.sequelize.sync({ force: true })
+  // await migrate.up() // yarn migrate up
+  // await seed.up() // yarn seed up
 })()
 
 app.use(express.json())

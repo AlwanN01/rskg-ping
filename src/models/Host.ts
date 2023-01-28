@@ -3,7 +3,7 @@ import sequelize from '../db'
 import { HostSchema } from '../middlewares/validations/Host.middleware'
 import PingLog from './PingLog'
 
-class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HasManyAssoc<PingLog, 'PingLog'> {
+class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> implements HostSchema, HasManyAssoc<PingLog, 'PingLog'> {
   declare id?: CreationOptional<number>
   declare hostName: string
   declare user: string

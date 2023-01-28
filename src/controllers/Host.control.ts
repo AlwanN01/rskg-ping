@@ -1,15 +1,20 @@
 import tryCatch from '../utils/tryCatch'
 import db from '../models'
 import resJson from '../helper/resJson'
-import { createHostSchema, searchHostSchema } from '../middlewares/validations/Host.middleware'
+import { hostSchema, HostSchema } from '../middlewares/validations/Host.middleware'
 
-export const createHost = tryCatch(createHostSchema, async (req, res) => {
-  const host = await db.Host.create({ user: 'dara', hostName: 'example3.com', divisi: 'IT' })
+export const createHost = tryCatch(hostSchema, async (req, res) => {
+  const host = await db.Host.create({ user: 'dara', hostName: req.body.hostName, divisi: 'IT' })
   resJson(res, 'Created', host)
 })
 
-export const searchHost = tryCatch(searchHostSchema, async (req, res) => {
-  const host = await db.Host.findOne({ where: req.query })
+export const updateHost = tryCatch(hostSchema, async (req, res) => {
+  const host = await db.Host.update({ user: req.body.user }, { where: { id: req.params?.id } })
+  resJson(res, 'Created', host)
+})
+
+export const searchHost = tryCatch<HostSchema>(async (req, res) => {
+  const host = await db.Host.findByPk(req.params.id)
   if (!host) return resJson(res, 'Not Found')
   resJson(res, 'OK', host)
 })
