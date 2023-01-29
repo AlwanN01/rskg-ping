@@ -10,9 +10,8 @@ const dir = fs.readdirSync(__dirname)
 const files = dir.filter(file => file.indexOf('.') !== 0 && file !== basename && (file.slice(-3) === '.js' || file.slice(-3) === '.ts'))
 files.forEach(file => {
   const model = require(path.join(__dirname, file)).default
-  const name = model.name.charAt(0).toUpperCase() + model.name.slice(1)
-  db[name] = model
-  Object.defineProperty(model, 'name', { value: name }) // modelname tidak akan bisa Capital
+  const className = model.name.charAt(0).toUpperCase() + model.name.slice(1)
+  db[className] = model
 })
 
 for (const modelName in db) {

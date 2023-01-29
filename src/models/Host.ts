@@ -34,7 +34,7 @@ Host.init(
     user: { type: DataTypes.STRING, allowNull: false },
     divisi: { type: DataTypes.STRING, allowNull: false }
   },
-  { sequelize }
+  { sequelize, modelName: 'host' }
 )
 
 export default Host
