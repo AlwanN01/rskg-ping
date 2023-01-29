@@ -23,7 +23,15 @@ function tryCatch(schemaOrHandler: any, handler?: any) {
     const callback = handler || schemaOrHandler
     if (handler) {
       const queryParamsResult = schemaOrHandler.safeParse({ ...req.query, ...req.body })
-      if (!queryParamsResult.success) return resJson(res, 'Bad Request', queryParamsResult.error.issues)
+
+      if (!queryParamsResult.success) {
+        const errors = {
+          name: queryParamsResult.error.name,
+          message: 'ValidationError',
+          issues: queryParamsResult.error.issues
+        }
+        return resJson(res, 'Bad Request', errors)
+      }
     }
     try {
       await callback(req, res, next)
