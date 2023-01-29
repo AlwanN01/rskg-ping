@@ -6,7 +6,7 @@ import { PingLogSchema } from '../validations/PingLog.middle'
 class PingLog extends Model<InferAttributes<PingLog>, InferCreationAttributes<PingLog>> implements BelongsToAssoc<Host, 'host'>, PingLogSchema {
   declare id?: CreationOptional<number>
   declare hostId: ForeignKey<Host['id']>
-  declare host: NonAttribute<Host>
+  declare host?: NonAttribute<Host>
   declare isConnect: boolean
   declare createdAt?: CreationOptional<number>
 

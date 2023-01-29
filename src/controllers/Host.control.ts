@@ -4,7 +4,7 @@ import resJson from '../helper/resJson'
 import { hostSchema, HostSchema } from '../validations/Host.middleware'
 
 export const createHost = tryCatch(hostSchema, async (req, res) => {
-  const host = await db.Host.create({ user: 'dara', hostName: req.body.hostName, divisi: 'IT' })
+  const host = await db.Host.create(req.body)
   resJson(res, 'Created', host)
 })
 

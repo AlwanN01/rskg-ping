@@ -11,15 +11,19 @@ const pairs = (<T>(p: readonly Pair<T>[]) => p)([
 ] as const)
 type Status = typeof pairs[number]['status']
 
-type Message = 'Updated' | 'Deleted' | 'Data Already Exist' | 'Invalid Token' | 'Internal Server Error'
+type Message = 'Data Already Exist' | 'Invalid Token' | 'Internal Server Error'
+interface MyMessage {
+  message?: String | Message
+  [key: string]: any
+}
 
-const resJson = (res: Res, statusMessage: Status, dataOrErrorq: any = null) => {
+function resJson(res: Res, statusMessage: Status, dataOrErrors?: MyMessage): Res {
   try {
     const { code, status } = pairs.find(data => data.status === statusMessage)!
     return res.status(code).json({
       code,
       status,
-      [code >= 400 ? 'error' : 'data']: dataOrErrorq
+      [code >= 400 ? 'errors' : 'data']: dataOrErrors
     })
   } catch (error: any) {
     throw new Error(error)
