@@ -12,3 +12,18 @@ function add(a: any, b: any, c?: any): any {
     return a + b
   }
 }
+
+interface A {
+  discriminator: 'I-AM-A'
+  member: string
+}
+
+function instanceOfA(object: any): object is A {
+  return object.discriminator === 'I-AM-A'
+}
+
+var a: any = { discriminator: 'I-AM-A', member: 'foobar' }
+
+if (instanceOfA(a)) {
+  console.log(a.member)
+}

@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import type { z } from 'zod'
+import { z } from 'zod'
 import resJson from '../helper/resJson'
 interface ReqData {
   [key: string]: string | undefined
@@ -18,12 +18,11 @@ type HandlersBody<TBody> = (
  maka data akan kehilangan type / autocomplete nya jika ingin mengedit hapus dulu return resJson(res, 'OK', data)*/
 function tryCatch<TQuery>(handler: HandlersQuery<TQuery>): HandlersQuery<TQuery>
 function tryCatch<TBody>(schema: z.Schema<TBody>, handler: HandlersBody<TBody>): HandlersBody<TBody>
-function tryCatch(schemaOrHandler: any, handler?: any) {
-  return async function (req: any, res: any, next: any) {
+function tryCatch<T>(schemaOrHandler: z.Schema<T> | HandlersQuery<T>, handler?: HandlersQuery<T> | HandlersBody<T>) {
+  return async function (req: any, res: any, next: NextFunction) {
     const callback = handler || schemaOrHandler
-    if (handler) {
+    if (schemaOrHandler instanceof z.Schema) {
       const queryParamsResult = schemaOrHandler.safeParse({ ...req.query, ...req.body })
-
       if (!queryParamsResult.success) {
         const errors = {
           name: queryParamsResult.error.name,
@@ -34,10 +33,11 @@ function tryCatch(schemaOrHandler: any, handler?: any) {
       }
     }
     try {
-      await callback(req, res, next)
+      if (typeof callback == 'function') await callback(req, res, next)
     } catch (error) {
       next(error)
     }
+    next()
   }
 }
 export default tryCatch
