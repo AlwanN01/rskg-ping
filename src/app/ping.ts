@@ -2,18 +2,24 @@ import db from '../models'
 import ping from 'ping'
 import { Server } from 'socket.io'
 import type { Server as HttpServer } from 'http'
-let prevStatus: any = {}
+export let prevStatus: any = {}
 let failedCount: any = {}
-let _hosts: any = {}
-const getData = () => prevStatus
+// let _hosts: any = {}
+// const getData = () => prevStatus
 
 export default function Ping(server: HttpServer) {
   const io = new Server(server)
   const emit = io.emit.bind(io)
   async function checkConnection() {
+    console.log(prevStatus)
+
     try {
       const hosts = await db.Host.findAll({ attributes: ['id', 'hostName'] })
+      for (const statusHost in prevStatus) {
+        console.log(hosts.hasOwnProperty(statusHost))
+      }
       for (const { id, hostName } of hosts) {
+        // if (!prevStatus.hasOwnProperty(hostName)) delete prevStatus[hostName]
         const res = await ping.promise.probe(hostName)
         if (!res.alive && prevStatus[hostName] !== 'down') {
           failedCount[hostName] = (failedCount[hostName] ? failedCount[hostName] : 0) + 1
@@ -39,8 +45,6 @@ export default function Ping(server: HttpServer) {
   }
   setInterval(checkConnection, 3000)
   io.on('connection', socket => {
-    console.log(prevStatus)
-    console.log(prevStatus)
     for (const host in prevStatus) {
       socket.emit(host, prevStatus[host])
     }

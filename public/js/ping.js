@@ -16,12 +16,15 @@ const listPing = document.querySelector('#list-ping')
 //   })
 //   listPing.innerHTML = listData
 // })
-fetch('/host')
-  .then(res => res.json())
-  .then(res => {
-    res.data.forEach(hostName => {
-      socket.on(hostName, data => {
-        listPing.innerHTML = hostName + ' ' + data
-      })
-    })
-  })
+// fetch('/host')
+//   .then(res => res.json())
+//   .then(res => {
+//     res.data.forEach(hostName => {
+//       socket.on(hostName, data => {
+//         listPing.innerHTML = hostName + ' ' + data
+//       })
+//     })
+//   })
+socket.on('192.168.4.29', data => {
+  listPing.innerHTML = '192.168.4.29' + ' ' + data
+})

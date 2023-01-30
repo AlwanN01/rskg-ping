@@ -29,3 +29,10 @@ export const findAllHost = tryCatch<HostSchema>(async (req, res) => {
       (await db.Host.findAll({ attributes: ['hostName'] })).map(host => host.hostName)
     )
 })
+
+export const deleteHost = tryCatch(hostSchema, async (req, res) => {
+  const host = await db.Host.destroy({ where: { id: req.params.id } })
+  console.log(host)
+
+  resJson(res, 'No Content')
+})
