@@ -1,29 +1,48 @@
 import db from '../models'
 import ping from 'ping'
-
+import { Server } from 'socket.io'
+import type { Server as HttpServer } from 'http'
 let prevStatus: any = {}
 let failedCount: any = {}
-export default async function checkConnection() {
-  try {
-    const hosts = await db.Host.findAll({ attributes: ['id', 'hostName'] })
+let _hosts: any = {}
+const getData = () => prevStatus
 
-    for (const { id, hostName } of hosts) {
-      const res = await ping.promise.probe(hostName)
-      if (!res.alive && prevStatus[hostName] !== 'down') {
-        failedCount[hostName] = (failedCount[hostName] ? failedCount[hostName] : 0) + 1
-        if (failedCount[hostName] === 3) {
-          prevStatus[hostName] = 'down'
-          await db.PingLog.create({ hostId: id, isConnect: false })
+export default function Ping(server: HttpServer) {
+  const io = new Server(server)
+  const emit = io.emit.bind(io)
+  async function checkConnection() {
+    try {
+      const hosts = await db.Host.findAll({ attributes: ['id', 'hostName'] })
+      for (const { id, hostName } of hosts) {
+        const res = await ping.promise.probe(hostName)
+        if (!res.alive && prevStatus[hostName] !== 'down') {
+          failedCount[hostName] = (failedCount[hostName] ? failedCount[hostName] : 0) + 1
+          if (failedCount[hostName] === 3) {
+            prevStatus[hostName] = 'down'
+            await db.PingLog.create({ hostId: id, isConnect: false })
+            emit(hostName, 'down')
+            // _hosts[hostName] = { hostName, isConnect: false }
+          }
+        } else if (res.alive && prevStatus[hostName] !== 'up') {
+          prevStatus[hostName] = 'up'
+          failedCount[hostName] = 0
+          await db.PingLog.create({ hostId: id, isConnect: true })
+          emit(hostName, 'up')
+          // _hosts[hostName] = { hostName, isConnect: true }
+        } else {
+          failedCount[hostName] = 0
         }
-      } else if (res.alive && prevStatus[hostName] !== 'up') {
-        prevStatus[hostName] = 'up'
-        failedCount[hostName] = 0
-        await db.PingLog.create({ hostId: id, isConnect: true })
-      } else {
-        failedCount[hostName] = 0
       }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (error) {
-    console.log(error)
   }
+  setInterval(checkConnection, 3000)
+  io.on('connection', socket => {
+    console.log(prevStatus)
+    console.log(prevStatus)
+    for (const host in prevStatus) {
+      socket.emit(host, prevStatus[host])
+    }
+  })
 }
