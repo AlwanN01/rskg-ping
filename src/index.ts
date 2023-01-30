@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import router from './routers/+routes'
 import db from './models'
 import { migrate, seed } from './db/umzug'
+import checkConnection from './app/ping'
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -24,4 +25,5 @@ app.get('/', async (req: Request, res: Response) => {
 app.use(router)
 app.listen(port, () => {
   console.log(`Running on Port ${port}`)
+  setInterval(checkConnection, 3000)
 })

@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const hostSchema = z
   .object({
     id: z.coerce.number().optional(),
-    hostName: z.string().url(),
+    hostName: z.string(),
     user: z.string(),
     divisi: z.string()
   })

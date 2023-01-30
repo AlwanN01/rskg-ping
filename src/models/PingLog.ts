@@ -29,6 +29,7 @@ PingLog.init(
   },
   {
     sequelize,
+    tableName: 'ping_logs',
     modelName: 'pingLog',
     updatedAt: false
   }

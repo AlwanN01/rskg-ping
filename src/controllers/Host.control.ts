@@ -22,8 +22,10 @@ export const findOneHost = tryCatch<HostSchema>(async (req, res) => {
 export const findAllHost = tryCatch<HostSchema>(async (req, res) => {
   const isAllAttributes = JSON.parse(req.query.allAtributes! || 'false')
   if (isAllAttributes && typeof isAllAttributes == 'boolean') resJson(res, 'OK', await db.Host.findAll())
-  else {
-    const { hostName } = db.Host.getAttributes()
-    resJson(res, 'OK', await db.Host.findAll({ attributes: [hostName.field!] }))
-  }
+  else
+    resJson(
+      res,
+      'OK',
+      (await db.Host.findAll({ attributes: ['hostName'] })).map(host => host.hostName)
+    )
 })
