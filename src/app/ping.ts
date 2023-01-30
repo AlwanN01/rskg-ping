@@ -4,7 +4,6 @@ import { Server } from 'socket.io'
 import type { Server as HttpServer } from 'http'
 export let prevStatus: any = {}
 let failedCount: any = {}
-// let _hosts: any = {}
 // const getData = () => prevStatus
 
 export default function Ping(server: HttpServer) {
@@ -15,9 +14,6 @@ export default function Ping(server: HttpServer) {
 
     try {
       const hosts = await db.Host.findAll({ attributes: ['id', 'hostName'] })
-      for (const statusHost in prevStatus) {
-        console.log(hosts.hasOwnProperty(statusHost))
-      }
       for (const { id, hostName } of hosts) {
         // if (!prevStatus.hasOwnProperty(hostName)) delete prevStatus[hostName]
         const res = await ping.promise.probe(hostName)

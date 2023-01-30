@@ -6,5 +6,5 @@ hostRouter.get('/:id', findOneHost)
 hostRouter.get('/', findAllHost)
 hostRouter.post('/', createHost)
 hostRouter.patch('/', updateHost)
-hostRouter.delete('/:id', deleteHost)
+hostRouter.delete('/', deleteHost)
 export default hostRouter
