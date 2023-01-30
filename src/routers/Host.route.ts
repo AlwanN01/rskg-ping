@@ -1,7 +1,9 @@
 import express from 'express'
-import { createHost, searchHost } from '../controllers/Host.control'
+import { createHost, findAllHost, findOneHost, updateHost } from '../controllers/Host.control'
 
 const hostRouter = express.Router()
-hostRouter.get('/', searchHost)
+hostRouter.get('/:id', findOneHost)
+hostRouter.get('/', findAllHost)
 hostRouter.post('/', createHost)
+hostRouter.patch('/', updateHost)
 export default hostRouter

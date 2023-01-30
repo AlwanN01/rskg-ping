@@ -5,7 +5,7 @@ interface ReqData {
   [key: string]: string | undefined
 }
 type HandlersQuery<TQuery> = (
-  req: Request<{ id: string | undefined } & ReqData, ReqData | undefined, ReqData | undefined, TQuery>,
+  req: Request<{ id: string | undefined } & ReqData, ReqData | undefined, ReqData | undefined, TQuery & ReqData>,
   res: Response,
   next: NextFunction
 ) => Promise<Response | void>
