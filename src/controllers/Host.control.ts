@@ -10,7 +10,7 @@ export const createHost = tryCatch(hostSchema, async (req, res) => {
 
 export const updateHost = tryCatch(hostSchema, async (req, res) => {
   const host = await db.Host.update(req.body, { where: { id: req.body.id } })
-  resJson(res, 'Created', host)
+  resJson(res, 'No Content')
 })
 
 export const findOneHost = tryCatch<HostSchema>(async (req, res) => {
@@ -31,9 +31,8 @@ export const findAllHost = tryCatch<HostSchema>(async (req, res) => {
 })
 
 export const deleteHost = tryCatch<HostSchema>(async (req, res) => {
-  const host = await db.Host.destroy({ where: { hostName: req.query.hostName } })
+  const isDeleted = await db.Host.destroy({ where: { hostName: req.query.hostName } })
   delete prevStatus[req.query.hostName]
-  console.log(host)
-
+  if (!isDeleted) return resJson(res, 'Not Found')
   resJson(res, 'No Content')
 })
