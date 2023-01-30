@@ -10,8 +10,6 @@ export default function Ping(server: HttpServer) {
   const io = new Server(server)
   const emit = io.emit.bind(io)
   async function checkConnection() {
-    console.log(prevStatus)
-
     try {
       const hosts = await db.Host.findAll({ attributes: ['id', 'hostName'] })
       for (const { id, hostName } of hosts) {
