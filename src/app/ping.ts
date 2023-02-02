@@ -20,7 +20,7 @@ export default function Ping(server: HttpServer) {
           if (failedCount[hostName] === 3) {
             prevStatus[hostName] = { status: 'down', updatedAt: new Date() }
             await db.PingLog.create({ hostId: id, isConnect: false })
-            emit(hostName, { status: 'down', updatedAt: new Date() })
+            emit(hostName, prevStatus[hostName])
 
             // _hosts[hostName] = { hostName, isConnect: false }
           }
@@ -28,7 +28,7 @@ export default function Ping(server: HttpServer) {
           prevStatus[hostName] = { status: 'up', updatedAt: new Date() }
           failedCount[hostName] = 0
           await db.PingLog.create({ hostId: id, isConnect: true })
-          emit(hostName, { status: 'up', updatedAt: new Date() })
+          emit(hostName, prevStatus[hostName])
 
           // _hosts[hostName] = { hostName, isConnect: true }
         } else {
