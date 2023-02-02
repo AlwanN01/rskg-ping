@@ -45,6 +45,6 @@ export default function Ping(server: HttpServer) {
       for (const host in prevStatus) {
         socket.emit(host, prevStatus[host])
       }
-    }, 3000)
+    }, 1000)
   })
 }

@@ -3,9 +3,9 @@ import { z } from 'zod'
 export const hostSchema = z
   .object({
     id: z.coerce.number().optional(),
-    hostName: z.string(),
-    user: z.string(),
-    divisi: z.string()
+    hostName: z.string().min(1),
+    user: z.string().min(1),
+    divisi: z.string().min(1)
   })
   .strict()
 
