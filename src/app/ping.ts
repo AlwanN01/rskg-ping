@@ -7,7 +7,7 @@ let failedCount: any = {}
 // const getData = () => prevStatus
 
 export default function Ping(server: HttpServer) {
-  const io = new Server(server)
+  const io = new Server(server, { cors: { origin: 'http://localhost:3000' } })
   const emit = io.emit.bind(io)
   async function checkConnection() {
     try {
@@ -15,19 +15,23 @@ export default function Ping(server: HttpServer) {
       for (const { id, hostName } of hosts) {
         // if (!prevStatus.hasOwnProperty(hostName)) delete prevStatus[hostName]
         const res = await ping.promise.probe(hostName)
-        if (!res.alive && prevStatus[hostName] !== 'down') {
+        if (!res.alive && prevStatus[hostName]?.status !== 'down') {
           failedCount[hostName] = (failedCount[hostName] ? failedCount[hostName] : 0) + 1
           if (failedCount[hostName] === 3) {
-            prevStatus[hostName] = 'down'
+            prevStatus[hostName] = { status: 'down', updatedAt: new Date() }
             await db.PingLog.create({ hostId: id, isConnect: false })
             emit(hostName, 'down')
+            console.log('down')
+
             // _hosts[hostName] = { hostName, isConnect: false }
           }
-        } else if (res.alive && prevStatus[hostName] !== 'up') {
-          prevStatus[hostName] = 'up'
+        } else if (res.alive && prevStatus[hostName]?.status !== 'up') {
+          prevStatus[hostName] = { status: 'up', updatedAt: new Date() }
           failedCount[hostName] = 0
           await db.PingLog.create({ hostId: id, isConnect: true })
           emit(hostName, 'up')
+          console.log('up')
+
           // _hosts[hostName] = { hostName, isConnect: true }
         } else {
           failedCount[hostName] = 0
@@ -39,8 +43,10 @@ export default function Ping(server: HttpServer) {
   }
   setInterval(checkConnection, 3000)
   io.on('connection', socket => {
-    for (const host in prevStatus) {
-      socket.emit(host, prevStatus[host])
-    }
+    setTimeout(() => {
+      for (const host in prevStatus) {
+        socket.emit(host, prevStatus[host])
+      }
+    }, 3000)
   })
 }
