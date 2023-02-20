@@ -3,6 +3,7 @@ import db from '../models'
 import resJson from '../helper/resJson'
 import { hostSchema, HostSchema } from '../validations/Host.middleware'
 import { prevStatus } from '../app/ping'
+import type { Projectable } from 'sequelize'
 export const createHost = tryCatch(hostSchema, async (req, res) => {
   const host = await db.Host.create(req.body)
   resJson(res, 'Created', host)

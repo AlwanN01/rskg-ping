@@ -9,6 +9,8 @@ class Host extends Model<InferAttributes<Host>, InferCreationAttributes<Host>> i
   declare user: string
   declare divisi: string
   declare pingLogs?: NonAttribute<PingLog[]>
+  declare createdAt?: Date
+  declare updatedAt?: Date
   declare static associations: {
     pingLogs: Association<PingLog, Host>
   }
