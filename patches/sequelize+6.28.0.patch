@@ -1,5 +1,5 @@
 diff --git a/node_modules/sequelize/types/model.d.ts b/node_modules/sequelize/types/model.d.ts
-index ccdb79d..47b42b0 100644
+index ccdb79d..4b62dfb 100644
 --- a/node_modules/sequelize/types/model.d.ts
 +++ b/node_modules/sequelize/types/model.d.ts
 @@ -55,14 +55,14 @@ export interface Filterable<TAttributes = any> {
@@ -19,7 +19,15 @@ index ccdb79d..47b42b0 100644
  }
  
  export interface Paranoid {
-@@ -739,15 +739,15 @@ export type Order = Fn | Col | Literal | OrderItem[];
+@@ -160,6 +160,7 @@ export type WhereOptions<TAttributes = any> = AllowNotOrAndWithImplicitAndArrayR
+   | Fn
+   | Where
+   | Json
++  | {like:symbol,and:symbol,or:symbol}
+ >;
+ 
+ /**
+@@ -739,15 +740,15 @@ export type Order = Fn | Col | Literal | OrderItem[];
   */
  export type ProjectionAlias = readonly [string | Literal | Fn | Col, string];
  
@@ -41,7 +49,7 @@ index ccdb79d..47b42b0 100644
    };
  
  export interface IndexHint {
-@@ -768,7 +768,7 @@ export interface IndexHintable {
+@@ -768,7 +769,7 @@ export interface IndexHintable {
   * A hash of options to describe the scope of the search
   */
  export interface FindOptions<TAttributes = any>
