@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import type { Options } from 'sequelize'
+import { Op, Options } from 'sequelize'
 interface Config {
   development: Options
   production: Options
@@ -21,7 +21,12 @@ const dbconf: Config = {
     define: {
       underscored: true
     },
-    logging: false
+    logging: false,
+    operatorsAliases: {
+      like: Op.like,
+      and: Op.and,
+      or: Op.or
+    }
   },
   production: {
     host: process.env.DB_HOST,
