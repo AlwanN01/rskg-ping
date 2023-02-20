@@ -23,7 +23,6 @@ const dbconf: Config = {
     },
     logging: false,
     operatorsAliases: {
-      like: Op.like,
       and: Op.and,
       or: Op.or
     }

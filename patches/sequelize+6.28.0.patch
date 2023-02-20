@@ -1,5 +1,5 @@
 diff --git a/node_modules/sequelize/types/model.d.ts b/node_modules/sequelize/types/model.d.ts
-index ccdb79d..4b62dfb 100644
+index ccdb79d..8ee8aa9 100644
 --- a/node_modules/sequelize/types/model.d.ts
 +++ b/node_modules/sequelize/types/model.d.ts
 @@ -55,14 +55,14 @@ export interface Filterable<TAttributes = any> {
@@ -23,7 +23,7 @@ index ccdb79d..4b62dfb 100644
    | Fn
    | Where
    | Json
-+  | {like:symbol,and:symbol,or:symbol}
++  | {and:symbol,or:symbol}
  >;
  
  /**
