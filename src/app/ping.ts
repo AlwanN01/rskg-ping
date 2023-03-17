@@ -2,8 +2,8 @@ import db from '../models'
 import ping from 'ping'
 import { Server } from 'socket.io'
 import type { Server as HttpServer } from 'http'
-export let prevStatus: any = {}
-let failedCount: any = {}
+export let prevStatus = {} as Record<string, { status: 'up' | 'down'; updatedAt: Date }>
+let failedCount = {} as Record<string, number>
 // const getData = () => prevStatus
 
 export default function Ping(server: HttpServer) {
