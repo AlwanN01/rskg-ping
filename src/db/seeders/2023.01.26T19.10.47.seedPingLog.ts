@@ -5,7 +5,7 @@ export const up: MigrationFn = async ({ db }) => {
 }
 export const down: MigrationFn = async ({ db }) => {
   await db.PingLog.destroy({ where: {} })
-  await db.sequelize.query(`ALTER TABLE rskg_ping.ping_logs 
-  AUTO_INCREMENT=1;
-  `)
+  // await db.sequelize.query(`ALTER TABLE rskg_ping.ping_logs
+  // AUTO_INCREMENT=1;
+  // `)
 }

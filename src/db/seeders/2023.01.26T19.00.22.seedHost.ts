@@ -11,7 +11,7 @@ export const up: MigrationFn = async ({ db: { Host } }) => {
 }
 export const down: MigrationFn = async ({ db }) => {
   await db.Host.destroy({ where: {} })
-  await db.sequelize.query(`ALTER TABLE rskg_ping.hosts 
-  AUTO_INCREMENT=1;
-  `)
+  // await db.sequelize.query(`ALTER TABLE rskg_ping.hosts
+  // AUTO_INCREMENT=1;
+  // `)
 }

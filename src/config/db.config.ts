@@ -10,7 +10,9 @@ const dbconf: Config = {
     database: process.env.DB_NAME,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    dialect: 'mysql',
+    dialect: 'postgres',
+    schema: 'public',
+    port: process.env.DB_PORT,
     timezone: '+07:00',
     pool: {
       max: 5,

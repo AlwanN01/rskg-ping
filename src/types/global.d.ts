@@ -10,7 +10,7 @@ declare global {
       readonly REFRESH_TOKEN: string
       readonly PORT?: number
       readonly DB_HOST: string
-      readonly DB_PORT: string
+      readonly DB_PORT: number
       readonly DB_USERNAME: string
       readonly DB_PASSWORD: string
       readonly DB_NAME: string
